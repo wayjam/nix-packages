@@ -30,7 +30,7 @@
     );
 
     nixosModules.magpie = {...}: {
-      imports = [./modules/magpie.nix];
+      imports = [./packages/magpie/module.nix];
       nixpkgs.overlays = [overlay];
     };
 
