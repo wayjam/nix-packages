@@ -66,6 +66,7 @@
         assert expect "XDG_STATE_HOME" "/var/lib/magpie/state";
         assert expect "HOME" "/var/lib/magpie/home";
         assert expect "BUN_INSTALL_CACHE_DIR" "/var/lib/magpie/cache/bun";
+        assert expect "container" "magpie";
         assert expect "AGY_BRIDGE_MAX_PROCS" "4";
         assert nixpkgs.lib.assertMsg (
           service.serviceConfig.ExecStart

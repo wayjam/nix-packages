@@ -17,6 +17,9 @@
       HOME = "${stateDir}/home";
       BUN_INSTALL_CACHE_DIR = "${stateDir}/cache/bun";
       MAGPIE_ADDR = cfg.listen;
+      # agy has no Secret Service here. This selects its file token store
+      # below HOME, at .gemini/antigravity-cli/antigravity-oauth-token.
+      container = "magpie";
     }
     // lib.optionalAttrs (cfg.publicUrl != null) {
       MAGPIE_PUBLIC_URL = cfg.publicUrl;
@@ -152,11 +155,10 @@ in {
         (`magpie plugin add @magpie-community/opencode-agy-cli-auth`) is left
         to the operator; its files live under the state directory.
 
-        On Linux, agy stores its Google sign-in in the Secret Service keyring
-        (service {literal}`gemini`, account {literal}`antigravity`). A headless
-        system without that service cannot complete that sign-in. Set
-        {env}`GEMINI_API_KEY` through {option}`services.magpie.environmentFiles`
-        to use an API key instead.
+        The service sets {env}`container` so agy stores its Google sign-in in
+        {file}`$HOME/.gemini/antigravity-cli/antigravity-oauth-token` instead
+        of the Secret Service keyring. Sign in once as the service user with
+        `agy acp --login`. The plugin reads that file on later runs.
       '';
     };
   };
